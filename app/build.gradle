@@ -1,9 +1,12 @@
+import com.apollographql.apollo.gradle.internal.ApolloDownloadSchemaTask
+
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
     id "com.google.devtools.ksp"
+    id "com.apollographql.apollo3" version "$apollo_version"
 }
 
 android {
@@ -31,6 +34,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+        freeCompilerArgs += ["-Xopt-in=kotlin.RequiresOptIn"]
     }
     buildFeatures {
         dataBinding true
@@ -50,10 +54,19 @@ dependencies {
     implementation "androidx.legacy:legacy-support-v4:$legacy_support_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    implementation "androidx.paging:paging-runtime:$paging_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.room:room-paging:2.5.0-alpha01"
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "com.apollographql.apollo3:apollo-runtime:$apollo_version"
+    implementation "com.github.bumptech.glide:glide:$glide_version"
     implementation "com.google.android.material:material:$material_version"
     implementation "io.insert-koin:koin-android:$koin_version"
     implementation "io.insert-koin:koin-core:$koin_version"
     implementation "io.insert-koin:koin-annotations:$koin_ksp_version"
+
+    kapt "androidx.room:room-compiler:$room_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
 
     ksp "io.insert-koin:koin-ksp-compiler:$koin_ksp_version"
 
@@ -64,4 +77,13 @@ dependencies {
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core_version"
     androidTestImplementation "androidx.test.ext:junit:$test_ext_junit_version"
+}
+
+apollo {
+    packageName.set("com.hanmajid.android.pokemonapp")
+}
+
+tasks.register("_pokemonDownloadSchema", ApolloDownloadSchemaTask) {
+    endpoint = "https://beta.pokeapi.co/graphql/v1beta"
+    schemaRelativeToProject = "src/main/graphql/com/hanmajid/android/pokemonapp/schema.json"
 }

@@ -5,8 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.hanmajid.android.pokemonapp.databinding.FragmentListBinding
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -14,6 +18,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  */
 class ListFragment : Fragment() {
     private lateinit var binding: FragmentListBinding
+    private lateinit var pokemonAdapter: PokemonAdapter
+
     private val viewModel: ListViewModel by viewModel()
 
     override fun onCreateView(
@@ -26,7 +32,25 @@ class ListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setupAdapter()
         setupBinding()
+        setupViewModel()
+    }
+
+    /**
+     * Setups the list adapter.
+     */
+    private fun setupAdapter() {
+        pokemonAdapter = PokemonAdapter({
+            viewModel.addPokemonToFavorite(it)
+        }, {
+            viewModel.removePokemonFromFavorite(it)
+        }, {
+            findNavController().navigate(
+                ListFragmentDirections.actionGlobalDetailFragment(it)
+            )
+        })
     }
 
     /**
@@ -35,10 +59,18 @@ class ListFragment : Fragment() {
     private fun setupBinding() {
         binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.buttonTest.setOnClickListener {
-            findNavController().navigate(
-                ListFragmentDirections.actionGlobalDetailFragment(1)
-            )
+        binding.recyclerView.apply {
+            layoutManager = GridLayoutManager(requireContext(), 2)
+            adapter = pokemonAdapter
+        }
+        pokemonAdapter.refresh()
+    }
+
+    private fun setupViewModel() {
+        lifecycleScope.launch {
+            viewModel.allPokemonFlow.collectLatest { pagingData ->
+                pokemonAdapter.submitData(pagingData)
+            }
         }
     }
 

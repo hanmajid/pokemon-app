@@ -6,6 +6,6 @@ import org.koin.core.annotation.Module
 /**
  * The app's Koin application-level module.
  */
-@Module
+@Module(includes = [DatabaseModule::class])
 @ComponentScan("com.hanmajid.android.pokemonapp")
 class AppModule
