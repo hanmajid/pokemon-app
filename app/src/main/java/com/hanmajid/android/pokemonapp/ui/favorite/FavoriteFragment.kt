@@ -8,9 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.transition.MaterialElevationScale
 import com.hanmajid.android.pokemonapp.databinding.FragmentFavoriteBinding
-import com.hanmajid.android.pokemonapp.ui.list.ListFragmentDirections
+import com.hanmajid.android.pokemonapp.ui.detail.DetailFragment
 import com.hanmajid.android.pokemonapp.ui.list.PokemonAdapter
+import com.hanmajid.android.pokemonapp.util.NavigationUtil
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -38,6 +40,7 @@ class FavoriteFragment : Fragment() {
         setupAdapter()
         setupBinding()
         setupViewModel()
+        setupTransition()
     }
 
     /**
@@ -48,9 +51,11 @@ class FavoriteFragment : Fragment() {
             // Do nothing
         }, {
             viewModel.removePokemonFromFavorite(it)
-        }, { _, it ->
-            findNavController().navigate(
-                ListFragmentDirections.actionGlobalDetailFragment(it)
+        }, { transitioningView, pokemonId ->
+            NavigationUtil.navigateToDetailFragment(
+                findNavController(),
+                transitioningView,
+                pokemonId,
             )
         })
     }
@@ -76,6 +81,25 @@ class FavoriteFragment : Fragment() {
                 pokemonAdapter.submitData(pagingData)
             }
         }
+    }
+
+
+    /**
+     * Setups the page's transition.
+     */
+    private fun setupTransition() {
+        exitTransition = MaterialElevationScale(false)
+        reenterTransition = MaterialElevationScale(true)
+
+        /**
+         * The below code is required to animate correctly when the user returns from [DetailFragment].
+         */
+        postponeEnterTransition()
+        (requireView().parent as ViewGroup).viewTreeObserver
+            .addOnPreDrawListener {
+                startPostponedEnterTransition()
+                true
+            }
     }
 
     companion object {

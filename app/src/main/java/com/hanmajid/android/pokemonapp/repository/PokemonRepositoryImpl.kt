@@ -1,11 +1,14 @@
 package com.hanmajid.android.pokemonapp.repository
 
+import androidx.lifecycle.LiveData
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.hanmajid.android.pokemonapp.data.remoteMediator.AllPokemonRemoteMediator
 import com.hanmajid.android.pokemonapp.data.database.MainDatabase
+import com.hanmajid.android.pokemonapp.data.graphql.GraphQLService
 import com.hanmajid.android.pokemonapp.model.Pokemon
+import com.hanmajid.android.pokemonapp.model.PokemonDetail
 import org.koin.core.annotation.Single
 
 /**
@@ -15,6 +18,7 @@ import org.koin.core.annotation.Single
 @OptIn(ExperimentalPagingApi::class)
 class PokemonRepositoryImpl(
     private val allPokemonRemoteMediator: AllPokemonRemoteMediator,
+    private val graphQLService: GraphQLService,
     private val mainDatabase: MainDatabase,
 ) : PokemonRepository {
     override fun getAllPokemonPager(): Pager<Int, Pokemon> {
@@ -40,6 +44,29 @@ class PokemonRepositoryImpl(
 
     override suspend fun removePokemonFromFavorite(pokemonId: Int) {
         return mainDatabase.pokemonDao().updatePokemonIsFavorite(pokemonId, false)
+    }
+
+    override fun getPokemonById(pokemonId: Int): LiveData<Pokemon?> {
+        return mainDatabase.pokemonDao().getById(pokemonId)
+    }
+
+    override suspend fun getPokemonDetailById(pokemonId: Int): Pokemon? {
+        val response = graphQLService.getDetailPokemon(pokemonId)
+        return if (response.success && response.data != null) {
+            val pokemon = response.data
+            val favoritePokemons = mainDatabase.pokemonDao().getAllFavorite()
+            val favoritePokemonIds = favoritePokemons.map { it.id }
+
+            val insertedPokemon = if (favoritePokemonIds.contains(pokemon.id)) {
+                pokemon.copy(isFavorite = true)
+            } else {
+                pokemon
+            }
+            mainDatabase.pokemonDao().insertAll(listOf(insertedPokemon))
+            response.data
+        } else {
+            null
+        }
     }
 
     companion object {

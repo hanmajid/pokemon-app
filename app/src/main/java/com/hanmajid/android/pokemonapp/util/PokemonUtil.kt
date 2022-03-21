@@ -9,6 +9,14 @@ package com.hanmajid.android.pokemonapp.util
 object PokemonUtil {
 
     /**
+     * Gets the monster's id with start padding.
+     */
+    fun getIdFormatted(id: Int): String {
+        val paddedId = id.toString().padStart(3, '0')
+        return "#$paddedId"
+    }
+
+    /**
      * Gets the official artwork image URL of the monster.
      */
     fun getOfficialArtworkImageUrl(id: Int) =

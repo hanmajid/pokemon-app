@@ -1,15 +1,15 @@
 query GetPokemonQuery($limit: Int!, $offset: Int!) {
   pokemon_v2_pokemonspecies(limit: $limit, offset: $offset, order_by: {id: asc}) {
-      id
-      name
-      pokemon_v2_pokemons(order_by: {}) {
-        pokemon_v2_pokemontypes {
-          pokemon_v2_type {
-            name
-          }
+    id
+    name
+    pokemon_v2_pokemons {
+      pokemon_v2_pokemontypes {
+        pokemon_v2_type {
+          name
         }
       }
-      is_legendary
-      is_mythical
     }
+    is_legendary
+    is_mythical
+  }
 }

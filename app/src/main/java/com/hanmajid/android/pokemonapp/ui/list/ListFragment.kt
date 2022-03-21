@@ -6,13 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.transition.MaterialElevationScale
-import com.hanmajid.android.pokemonapp.R
 import com.hanmajid.android.pokemonapp.databinding.FragmentListBinding
 import com.hanmajid.android.pokemonapp.ui.detail.DetailFragment
+import com.hanmajid.android.pokemonapp.util.NavigationUtil
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -55,13 +54,10 @@ class ListFragment : Fragment() {
                 viewModel.removePokemonFromFavorite(it)
             },
             { transitioningView, pokemonId ->
-                findNavController().navigate(
-                    R.id.action_global_detailFragment,
-                    Bundle().apply {
-                        putInt("pokemonId", pokemonId)
-                    },
-                    null,
-                    FragmentNavigatorExtras(transitioningView to transitioningView.transitionName)
+                NavigationUtil.navigateToDetailFragment(
+                    findNavController(),
+                    transitioningView,
+                    pokemonId,
                 )
             },
         )

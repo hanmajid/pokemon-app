@@ -1,7 +1,9 @@
 package com.hanmajid.android.pokemonapp.repository
 
+import androidx.lifecycle.LiveData
 import androidx.paging.Pager
 import com.hanmajid.android.pokemonapp.model.Pokemon
+import com.hanmajid.android.pokemonapp.model.PokemonDetail
 
 /**
  * Pokemon-related repository interface.
@@ -27,4 +29,14 @@ interface PokemonRepository {
      * Removes Pokemon with the given [pokemonId] from Favorite.
      */
     suspend fun removePokemonFromFavorite(pokemonId: Int)
+
+    /**
+     * Gets [Pokemon] by the given [pokemonId].
+     */
+    fun getPokemonById(pokemonId: Int): LiveData<Pokemon?>
+
+    /**
+     * Gets [Pokemon] by the given [pokemonId].
+     */
+    suspend fun getPokemonDetailById(pokemonId: Int): Pokemon?
 }

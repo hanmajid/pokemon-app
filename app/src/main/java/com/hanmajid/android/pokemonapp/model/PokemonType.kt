@@ -1,5 +1,6 @@
 package com.hanmajid.android.pokemonapp.model
 
+import com.hanmajid.android.pokemonapp.GetPokemonDetailQuery
 import com.hanmajid.android.pokemonapp.GetPokemonQuery
 import com.hanmajid.android.pokemonapp.R
 import com.hanmajid.android.pokemonapp.util.StringUtil
@@ -59,6 +60,15 @@ data class PokemonType(
          * Creates [PokemonType] from GraphQL json.
          */
         fun fromJson(json: GetPokemonQuery.Pokemon_v2_type?): PokemonType {
+            return PokemonType(
+                name = json?.name ?: UNKNOWN_POKEMON_TYPE,
+            )
+        }
+
+        /**
+         * Creates [PokemonType] from GraphQL json.
+         */
+        fun fromJsonDetail(json: GetPokemonDetailQuery.Pokemon_v2_type?): PokemonType {
             return PokemonType(
                 name = json?.name ?: UNKNOWN_POKEMON_TYPE,
             )

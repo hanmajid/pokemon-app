@@ -10,7 +10,7 @@ object StringUtil {
      * Capitalize the given [text].
      */
     fun capitalizeString(text: String): String {
-        return text.split(" ").joinToString(" ") {
+        return text.replace("-", " ").split(" ").joinToString(" ") {
             capitalizeOneWord(it)
         }
     }

@@ -37,7 +37,7 @@ class AllPokemonRemoteMediator(
                 return MediatorResult.Success(endOfPaginationReached = true)
             }
 
-            val response = graphQLService.getPokemonList(
+            val response = graphQLService.getAllPokemon(
                 limit = PAGING_LOAD_SIZE,
                 offset = currentIndex * PAGING_LOAD_SIZE,
             )
@@ -67,7 +67,7 @@ class AllPokemonRemoteMediator(
                 }
                 currentIndex++
                 MediatorResult.Success(
-                    endOfPaginationReached = response.data.isNullOrEmpty() || currentIndex > 4
+                    endOfPaginationReached = response.data.isNullOrEmpty()
                 )
             } else {
                 MediatorResult.Error(Exception(response.error))

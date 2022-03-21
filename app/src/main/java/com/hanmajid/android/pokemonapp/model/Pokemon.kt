@@ -1,8 +1,10 @@
 package com.hanmajid.android.pokemonapp.model
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.hanmajid.android.pokemonapp.GetPokemonDetailQuery
 import com.hanmajid.android.pokemonapp.GetPokemonQuery
 import com.hanmajid.android.pokemonapp.util.PokemonUtil
 import com.hanmajid.android.pokemonapp.util.StringUtil
@@ -41,6 +43,11 @@ data class Pokemon(
      * Whether the monster is in user's Favorite or not.
      */
     @ColumnInfo(name = "is_favorite") val isFavorite: Boolean,
+
+    /**
+     * The monster's detail.
+     */
+    @Embedded(prefix = "detail_") val detail: PokemonDetail? = null,
 ) {
     /**
      * Gets the monster's capitalized [name].
@@ -50,10 +57,7 @@ data class Pokemon(
     /**
      * Gets the monster's id with start padding.
      */
-    fun getIdFormatted(): String {
-        val paddedId = id.toString().padStart(3, '0')
-        return "#$paddedId"
-    }
+    fun getIdFormatted() = PokemonUtil.getIdFormatted(id)
 
     /**
      * Gets the official artwork image URL of the monster.
@@ -70,6 +74,22 @@ data class Pokemon(
      */
     fun getDreamWorldImageUrl() = PokemonUtil.getDreamWorldImageUrl(id)
 
+    /**
+     * Gets the monster's formatted weight.
+     */
+    fun getWeightFormatted() = if (detail?.weight == null) "-" else "${detail.weight} hg"
+
+    /**
+     * Gets the monster's formatted height.
+     */
+    fun getHeightFormatted() = if (detail?.height == null) "-" else "${detail.height} dm"
+
+    /**
+     * Gets the monster's abilities separated by commas.
+     */
+    fun getAbilitiesFormatted() =
+        if (detail?.abilities.isNullOrEmpty()) "-" else detail!!.abilities!!.joinToString(", ") { it.name }
+
     companion object {
         /**
          * Creates [Pokemon] from GraphQL JSON.
@@ -84,6 +104,24 @@ data class Pokemon(
                     PokemonType.fromJson(it.pokemon_v2_type)
                 },
                 isFavorite = false,
+                detail = PokemonDetail(null, null, null, null),
+            )
+        }
+
+        /**
+         * Creates [Pokemon] from GraphQL json.
+         */
+        fun fromJsonDetail(json: GetPokemonDetailQuery.Pokemon_v2_pokemonspecy): Pokemon {
+            return Pokemon(
+                id = json.id,
+                name = json.name,
+                isLegendary = json.is_legendary,
+                isMythical = json.is_mythical,
+                types = json.pokemon_v2_pokemons.first().pokemon_v2_pokemontypes.map {
+                    PokemonType.fromJsonDetail(it.pokemon_v2_type)
+                },
+                isFavorite = false,
+                detail = PokemonDetail.fromJson(json),
             )
         }
     }

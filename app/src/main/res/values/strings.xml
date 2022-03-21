@@ -8,4 +8,9 @@
 
     <string name="action_add_to_favorite">Add to Favorite</string>
     <string name="action_remove_from_favorite">Remove from Favorite</string>
+    <string name="type">Type</string>
+    <string name="weight">Weight</string>
+    <string name="height">Height</string>
+    <string name="abilities">Abilities</string>
+    <string name="evolutions">Evolutions</string>
 </resources>

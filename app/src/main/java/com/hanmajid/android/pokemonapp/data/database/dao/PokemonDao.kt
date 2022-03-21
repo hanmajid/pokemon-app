@@ -1,11 +1,15 @@
 package com.hanmajid.android.pokemonapp.data.database.dao
 
+import androidx.lifecycle.LiveData
 import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.hanmajid.android.pokemonapp.model.Pokemon
+import com.hanmajid.android.pokemonapp.model.PokemonAbility
+import com.hanmajid.android.pokemonapp.model.PokemonDetail
+import com.hanmajid.android.pokemonapp.model.PokemonEvolution
 
 /**
  * [Pokemon] table DAO class.
@@ -47,4 +51,10 @@ interface PokemonDao {
      */
     @Query("UPDATE pokemons SET is_favorite = :newIsFavorite WHERE id = :pokemonId")
     suspend fun updatePokemonIsFavorite(pokemonId: Int, newIsFavorite: Boolean)
+
+    /**
+     * Gets [Pokemon] by the given [id].
+     */
+    @Query("SELECT * FROM pokemons WHERE id = :id LIMIT 1")
+    fun getById(id: Int): LiveData<Pokemon?>
 }

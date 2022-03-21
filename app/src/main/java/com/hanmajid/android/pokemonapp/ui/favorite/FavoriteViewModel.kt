@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.hanmajid.android.pokemonapp.repository.PokemonRepository
-import kotlinx.coroutines.launch
+import com.hanmajid.android.pokemonapp.usecase.RemovePokemonFromFavoriteUseCase
 import org.koin.android.annotation.KoinViewModel
 
 /**
@@ -12,7 +12,8 @@ import org.koin.android.annotation.KoinViewModel
  */
 @KoinViewModel
 class FavoriteViewModel(
-    private val pokemonRepository: PokemonRepository,
+    pokemonRepository: PokemonRepository,
+    private val removePokemonFromFavoriteUseCase: RemovePokemonFromFavoriteUseCase,
 ) : ViewModel() {
 
     /**
@@ -25,8 +26,6 @@ class FavoriteViewModel(
      * Removes Pokemon from Favorite.
      */
     fun removePokemonFromFavorite(pokemonId: Int) {
-        viewModelScope.launch {
-            pokemonRepository.removePokemonFromFavorite(pokemonId)
-        }
+        removePokemonFromFavoriteUseCase.run(viewModelScope, pokemonId)
     }
 }

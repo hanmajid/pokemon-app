@@ -1,0 +1,32 @@
+query GetPokemonDetailQuery($pokemonId: Int!) {
+  pokemon_v2_pokemonspecies(where: {id: {_eq: $pokemonId}}) {
+    id
+    name
+    pokemon_v2_pokemons {
+      pokemon_v2_pokemontypes {
+        pokemon_v2_type {
+          name
+        }
+      }
+      weight
+      height
+      pokemon_v2_pokemonabilities {
+        pokemon_v2_ability {
+          pokemon_v2_abilitynames {
+            name
+            language_id
+          }
+        }
+      }
+    }
+    pokemon_v2_evolutionchain {
+      pokemon_v2_pokemonspecies {
+        id
+        name
+        evolves_from_species_id
+      }
+    }
+    is_legendary
+    is_mythical
+  }
+}
