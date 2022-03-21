@@ -1,7 +1,7 @@
 # Pokemon App
 
 <div align="center">
-    <img src="https://icon-icons.com/download/67563/SVG/512/" height="100" />
+    <img src="/app/src/main/ic_launcher-playstore.png" height="100" />
 </div>
 
 ## About
@@ -20,7 +20,7 @@ APKs can be downloaded in the [release page](https://github.com/hanmajid/pokemon
 - User can collect a favorite monster
 - User can view list of favorite monster
 - User can delete a favorite monster from list
-- Using Kotlin with min SDK 21.
+- Using Kotlin with min SDK 21
 - Using Data Binding
 - Using MVVM design pattern
 - Using Dependency Injection implementation (Koin)
@@ -53,7 +53,7 @@ To download PokeApi's GraphQL schema, run this command:
 ## Screenshots
 
 | | |
-| - | - |
+| :-: | :-: |
 | Pokemon List Screen | Pokemon Detail Screen |
 | <img src="screenshots/list_screen.png" height="400" /> | <img src="screenshots/detail_screen.png" height="400" /> |
 | Favorite Pokemon Screen | Settings Screen |
