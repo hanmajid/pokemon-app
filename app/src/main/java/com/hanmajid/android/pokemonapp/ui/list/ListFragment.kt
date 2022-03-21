@@ -83,11 +83,12 @@ class ListFragment : Fragment() {
             }
             layoutManager = customLayoutManager
 
-            adapter = pokemonAdapter.withLoadStateFooter(
-                PagingFooterAdapter {
-                    pokemonAdapter.retry()
-                }
-            )
+            adapter = pokemonAdapter
+//                .withLoadStateFooter(
+//                PagingFooterAdapter {
+//                    pokemonAdapter.retry()
+//                }
+//            )
         }
     }
 

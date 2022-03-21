@@ -15,4 +15,6 @@
     <string name="message_enable_crash_reporting">Catatan: Perubahan laporan crash akan berjalan setelah restart aplikasi.</string>
     <string name="enable_crash_reporting">Aktifkan Laporan Crash?</string>
     <string name="message_favorite_empty">Anda belum punya Pokemon favorit</string>
+    <string name="message_list_empty">Gagal memuat data Pokemon</string>
+    <string name="action_retry">Ulangi</string>
 </resources>
