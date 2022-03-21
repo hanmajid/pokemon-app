@@ -5,7 +5,7 @@ import androidx.paging.*
 import androidx.room.withTransaction
 import com.bumptech.glide.load.HttpException
 import com.hanmajid.android.pokemonapp.data.database.MainDatabase
-import com.hanmajid.android.pokemonapp.data.grapql.GraphQLService
+import com.hanmajid.android.pokemonapp.data.graphql.GraphQLService
 import com.hanmajid.android.pokemonapp.model.Pokemon
 import org.koin.core.annotation.Single
 import java.io.IOException
@@ -46,29 +46,32 @@ class AllPokemonRemoteMediator(
                 "Fetching $loadType limit=$PAGING_LOAD_SIZE & offset=${currentIndex}"
             )
 
-            mainDatabase.withTransaction {
-                if (loadType == LoadType.REFRESH) {
-                    mainDatabase.pokemonDao().deleteAllNotFavorite()
-                }
-
-                val favoritePokemons = mainDatabase.pokemonDao().getAllFavorite()
-                val favoritePokemonIds = favoritePokemons.map { it.id }
-
-                val insertedPokemons = response.data?.map {
-                    if (favoritePokemonIds.contains(it.id)) {
-                        it.copy(isFavorite = true)
-                    } else {
-                        it
+            if (response.success) {
+                mainDatabase.withTransaction {
+                    if (loadType == LoadType.REFRESH) {
+                        mainDatabase.pokemonDao().deleteAllNotFavorite()
                     }
-                } ?: emptyList()
 
-                mainDatabase.pokemonDao().insertAll(insertedPokemons)
+                    val favoritePokemons = mainDatabase.pokemonDao().getAllFavorite()
+                    val favoritePokemonIds = favoritePokemons.map { it.id }
+
+                    val insertedPokemons = response.data?.map {
+                        if (favoritePokemonIds.contains(it.id)) {
+                            it.copy(isFavorite = true)
+                        } else {
+                            it
+                        }
+                    } ?: emptyList()
+
+                    mainDatabase.pokemonDao().insertAll(insertedPokemons)
+                }
+                currentIndex++
+                MediatorResult.Success(
+                    endOfPaginationReached = response.data.isNullOrEmpty() || currentIndex > 4
+                )
+            } else {
+                MediatorResult.Error(Exception(response.error))
             }
-
-            currentIndex++
-            MediatorResult.Success(
-                endOfPaginationReached = response.data.isNullOrEmpty() || currentIndex > 4
-            )
         } catch (e: IOException) {
             MediatorResult.Error(e)
         } catch (e: HttpException) {
