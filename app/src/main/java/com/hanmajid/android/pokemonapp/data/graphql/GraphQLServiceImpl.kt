@@ -2,6 +2,7 @@ package com.hanmajid.android.pokemonapp.data.graphql
 
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.network.http.LoggingInterceptor
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.hanmajid.android.pokemonapp.BuildConfig
 import com.hanmajid.android.pokemonapp.GetPokemonDetailQuery
 import com.hanmajid.android.pokemonapp.GetPokemonQuery
@@ -28,9 +29,11 @@ class GraphQLServiceImpl : GraphQLService {
                 GetPokemonQuery(limit, offset)
             ).execute()
             return if (response.hasErrors()) {
+                val errorMessage = response.errors?.firstOrNull()?.message
+                FirebaseCrashlytics.getInstance().recordException(Exception(errorMessage))
                 GraphQLServiceResult(
                     success = false,
-                    error = response.errors?.firstOrNull()?.message ?: "Unknown error",
+                    error = errorMessage ?: "Unknown error",
                 )
             } else {
                 GraphQLServiceResult(
@@ -41,6 +44,7 @@ class GraphQLServiceImpl : GraphQLService {
                 )
             }
         } catch (e: Exception) {
+            FirebaseCrashlytics.getInstance().recordException(e)
             return GraphQLServiceResult(
                 success = false,
                 error = e.message ?: "Unknown error",
@@ -54,16 +58,20 @@ class GraphQLServiceImpl : GraphQLService {
                 GetPokemonDetailQuery(pokemonId)
             ).execute()
             if (response.hasErrors()) {
+                val errorMessage = response.errors?.firstOrNull()?.message
+                FirebaseCrashlytics.getInstance().recordException(Exception(errorMessage))
                 return GraphQLServiceResult(
                     success = false,
-                    error = response.errors?.firstOrNull()?.message ?: "Unknown error",
+                    error = errorMessage ?: "Unknown error",
                 )
             } else {
                 val json = response.data?.pokemon_v2_pokemonspecies?.firstOrNull()
                 return if (json == null) {
+                    val errorMessage = "Pokemon detail is empty"
+                    FirebaseCrashlytics.getInstance().recordException(Exception(errorMessage))
                     GraphQLServiceResult(
                         success = false,
-                        error = "Pokemon detail is empty",
+                        error = errorMessage,
                     )
                 } else {
                     GraphQLServiceResult(
@@ -73,6 +81,7 @@ class GraphQLServiceImpl : GraphQLService {
                 }
             }
         } catch (e: Exception) {
+            FirebaseCrashlytics.getInstance().recordException(e)
             return GraphQLServiceResult(
                 success = false,
                 error = e.message ?: "Unknown error",

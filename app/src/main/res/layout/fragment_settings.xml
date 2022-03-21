@@ -1,13 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context=".ui.settings.SettingsFragment">
 
-    <TextView
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.hanmajid.android.pokemonapp.ui.settings.SettingsViewModel" />
+
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/title_settings" />
+        android:orientation="vertical">
 
-</FrameLayout>
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch_enable_crash_reporting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="@{viewModel.enableCrashReporting}"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="@string/enable_crash_reporting" />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/message_enable_crash_reporting" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</layout>

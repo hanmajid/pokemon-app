@@ -65,6 +65,7 @@ class FavoriteFragment : Fragment() {
      */
     private fun setupBinding() {
         binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
 
         binding.recyclerView.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)
@@ -79,6 +80,11 @@ class FavoriteFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.favoritePokemonFlow.collectLatest { pagingData ->
                 pokemonAdapter.submitData(pagingData)
+            }
+        }
+        pokemonAdapter.addLoadStateListener {
+            pokemonAdapter.itemCount.let {
+                viewModel.isEmpty.postValue(it <= 0)
             }
         }
     }

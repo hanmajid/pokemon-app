@@ -1,23 +1,44 @@
 package com.hanmajid.android.pokemonapp.ui.settings
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.hanmajid.android.pokemonapp.R
+import androidx.fragment.app.Fragment
+import com.hanmajid.android.pokemonapp.databinding.FragmentSettingsBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * Settings screen.
  */
 class SettingsFragment : Fragment() {
+    private lateinit var binding: FragmentSettingsBinding
+
+    private val viewModel: SettingsViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+    ): View {
+        binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupBinding()
+    }
+
+    /**
+     * Setups the page's DataBinding.
+     */
+    private fun setupBinding() {
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
+        binding.switchEnableCrashReporting.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.updateEnableCrashReporting(isChecked)
+        }
     }
 
     companion object {

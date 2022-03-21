@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "667052209809",
+    "project_id": "pokemon-app-bf80b",
+    "storage_bucket": "pokemon-app-bf80b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:667052209809:android:1d49431a483f98a9a9f130",
+        "android_client_info": {
+          "package_name": "com.hanmajid.android.pokemonapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "667052209809-lk50ivbsp0ohj9p5ecfshh3mkhtj3lof.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDElWKZ9JfDTdwihx1Om7nM7Fxr2Dv4qhc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "667052209809-lk50ivbsp0ohj9p5ecfshh3mkhtj3lof.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

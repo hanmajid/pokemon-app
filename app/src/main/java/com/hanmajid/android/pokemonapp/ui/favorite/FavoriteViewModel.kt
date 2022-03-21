@@ -1,5 +1,6 @@
 package com.hanmajid.android.pokemonapp.ui.favorite
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
@@ -15,6 +16,10 @@ class FavoriteViewModel(
     pokemonRepository: PokemonRepository,
     private val removePokemonFromFavoriteUseCase: RemovePokemonFromFavoriteUseCase,
 ) : ViewModel() {
+    /**
+     * Whether Favorite Pokemon is empty.
+     */
+    val isEmpty = MutableLiveData(false)
 
     /**
      * Favorite Pokemon's Flow.

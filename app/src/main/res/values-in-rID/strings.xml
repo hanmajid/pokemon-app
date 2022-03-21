@@ -7,4 +7,12 @@
     <string name="title_detail">Detail Pokemon</string>
     <string name="action_add_to_favorite">Tambah ke Favorit</string>
     <string name="action_remove_from_favorite">Hapus dari Favorit</string>
+    <string name="type">Tipe</string>
+    <string name="weight">Berat</string>
+    <string name="height">Tinggi</string>
+    <string name="abilities">Kemampuan</string>
+    <string name="evolutions">Evolusi</string>
+    <string name="message_enable_crash_reporting">Catatan: Perubahan laporan crash akan berjalan setelah restart aplikasi.</string>
+    <string name="enable_crash_reporting">Aktifkan Laporan Crash?</string>
+    <string name="message_favorite_empty">Anda belum punya Pokemon favorit</string>
 </resources>
