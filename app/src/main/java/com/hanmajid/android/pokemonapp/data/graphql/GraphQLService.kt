@@ -1,4 +1,4 @@
-package com.hanmajid.android.pokemonapp.data.grapql
+package com.hanmajid.android.pokemonapp.data.graphql
 
 import com.hanmajid.android.pokemonapp.model.Pokemon
 

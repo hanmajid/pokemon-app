@@ -30,6 +30,7 @@
                 android:layout_height="wrap_content">
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/card_image"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     app:imageUrl="@{pokemon.officialArtworkImageUrl}"
@@ -44,7 +45,8 @@
                     android:layout_height="wrap_content"
                     app:icon="@drawable/ic_baseline_favorite_border_24"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tooltipTextCompat="@{@string/action_add_to_favorite}" />
 
                 <Button
                     android:id="@+id/button_remove_favorite"
@@ -55,6 +57,7 @@
                     app:icon="@drawable/ic_baseline_favorite_24"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:tooltipTextCompat="@{@string/action_remove_from_favorite}"
                     tools:visibility="gone" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

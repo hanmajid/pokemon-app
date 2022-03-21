@@ -25,6 +25,12 @@ interface PokemonDao {
     fun pagingSource(): PagingSource<Int, Pokemon>
 
     /**
+     * Gets PagingSource for all Favorite Pokemons.
+     */
+    @Query("SELECT * FROM pokemons WHERE is_favorite = 1 ORDER BY id ASC")
+    fun favoritePagingSource(): PagingSource<Int, Pokemon>
+
+    /**
      * Delete all Pokemons with [Pokemon.isFavorite] == false from database.
      */
     @Query("DELETE FROM pokemons WHERE is_favorite = 0")

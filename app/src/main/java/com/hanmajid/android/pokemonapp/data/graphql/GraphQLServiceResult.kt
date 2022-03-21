@@ -1,4 +1,4 @@
-package com.hanmajid.android.pokemonapp.data.grapql
+package com.hanmajid.android.pokemonapp.data.graphql
 
 /**
  * Represents the result of a GraphQL service call.

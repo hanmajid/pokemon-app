@@ -14,6 +14,11 @@ interface PokemonRepository {
     fun getAllPokemonPager(): Pager<Int, Pokemon>
 
     /**
+     * Gets a Pager that retrieves all Pokemons in Favorite.
+     */
+    fun getFavoritePokemonPager(): Pager<Int, Pokemon>
+
+    /**
      * Adds Pokemon with the given [pokemonId] to Favorite.
      */
     suspend fun addPokemonToFavorite(pokemonId: Int)

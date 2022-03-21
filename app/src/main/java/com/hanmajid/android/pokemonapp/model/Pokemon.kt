@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.hanmajid.android.pokemonapp.GetPokemonQuery
+import com.hanmajid.android.pokemonapp.util.PokemonUtil
 import com.hanmajid.android.pokemonapp.util.StringUtil
 
 /**
@@ -57,20 +58,17 @@ data class Pokemon(
     /**
      * Gets the official artwork image URL of the monster.
      */
-    fun getOfficialArtworkImageUrl() =
-        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$id.png"
+    fun getOfficialArtworkImageUrl() = PokemonUtil.getOfficialArtworkImageUrl(id)
 
     /**
      * Gets the "Pokemon Home" image URL of the monster.
      */
-    fun getHomeImageUrl() =
-        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/$id.png"
+    fun getHomeImageUrl() = PokemonUtil.getHomeImageUrl(id)
 
     /**
      * Gets the "Dream World" image URL of the monster.
      */
-    fun getDreamWorldImageUrl() =
-        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/$id.svg"
+    fun getDreamWorldImageUrl() = PokemonUtil.getDreamWorldImageUrl(id)
 
     companion object {
         /**

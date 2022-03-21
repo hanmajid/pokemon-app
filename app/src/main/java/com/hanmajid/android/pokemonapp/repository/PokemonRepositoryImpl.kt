@@ -26,11 +26,23 @@ class PokemonRepositoryImpl(
         }
     }
 
+    override fun getFavoritePokemonPager(): Pager<Int, Pokemon> {
+        return Pager(
+            config = PagingConfig(FAVORITE_PAGING_LOAD_SIZE)
+        ) {
+            mainDatabase.pokemonDao().favoritePagingSource()
+        }
+    }
+
     override suspend fun addPokemonToFavorite(pokemonId: Int) {
         return mainDatabase.pokemonDao().updatePokemonIsFavorite(pokemonId, true)
     }
 
     override suspend fun removePokemonFromFavorite(pokemonId: Int) {
         return mainDatabase.pokemonDao().updatePokemonIsFavorite(pokemonId, false)
+    }
+
+    companion object {
+        const val FAVORITE_PAGING_LOAD_SIZE = 20
     }
 }

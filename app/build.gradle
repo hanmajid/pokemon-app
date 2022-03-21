@@ -23,7 +23,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField "String", "GRAPHQL_URL", "\"https://beta.pokeapi.co/graphql/v1beta\""
+        }
         release {
+            buildConfigField "String", "GRAPHQL_URL", "\"https://beta.pokeapi.co/graphql/v1beta\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

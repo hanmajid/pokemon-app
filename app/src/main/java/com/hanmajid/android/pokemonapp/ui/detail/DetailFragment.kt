@@ -4,9 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
+import com.google.android.material.transition.MaterialContainerTransform
+import com.hanmajid.android.pokemonapp.R
 import com.hanmajid.android.pokemonapp.databinding.FragmentDetailBinding
+import com.hanmajid.android.pokemonapp.util.PokemonUtil
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -28,6 +33,17 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupBinding()
+        setupTransition()
+
+        viewModel.setup(args.pokemonId)
+    }
+
+    /**
+     * Setups the page's transition.
+     */
+    private fun setupTransition() {
+        sharedElementEnterTransition = MaterialContainerTransform()
+        ViewCompat.setTransitionName(binding.image, "image-${args.pokemonId}")
     }
 
     /**
@@ -35,8 +51,7 @@ class DetailFragment : Fragment() {
      */
     private fun setupBinding() {
         binding.lifecycleOwner = viewLifecycleOwner
-
-        binding.textTest.text = args.pokemonId.toString()
+        binding.viewModel = viewModel
     }
 
     companion object {

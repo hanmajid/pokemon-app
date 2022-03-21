@@ -2,6 +2,7 @@ package com.hanmajid.android.pokemonapp.util
 
 import android.view.View
 import android.widget.ImageView
+import androidx.appcompat.widget.TooltipCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.hanmajid.android.pokemonapp.R
@@ -26,4 +27,12 @@ fun setImageUrl(view: ImageView, url: String?) {
 @BindingAdapter("hidden")
 fun setHidden(view: View, isHidden: Boolean?) {
     view.visibility = if (isHidden == true) View.GONE else View.VISIBLE
+}
+
+/**
+ * Sets the view's tooltip text.
+ */
+@BindingAdapter("tooltipTextCompat")
+fun setTooltipTextCompat(view: View, tooltipText: String) {
+    TooltipCompat.setTooltipText(view, tooltipText)
 }

@@ -6,9 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.transition.MaterialElevationScale
+import com.hanmajid.android.pokemonapp.R
 import com.hanmajid.android.pokemonapp.databinding.FragmentListBinding
+import com.hanmajid.android.pokemonapp.ui.detail.DetailFragment
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -36,21 +40,31 @@ class ListFragment : Fragment() {
         setupAdapter()
         setupBinding()
         setupViewModel()
+        setupTransition()
     }
 
     /**
      * Setups the list adapter.
      */
     private fun setupAdapter() {
-        pokemonAdapter = PokemonAdapter({
-            viewModel.addPokemonToFavorite(it)
-        }, {
-            viewModel.removePokemonFromFavorite(it)
-        }, {
-            findNavController().navigate(
-                ListFragmentDirections.actionGlobalDetailFragment(it)
-            )
-        })
+        pokemonAdapter = PokemonAdapter(
+            {
+                viewModel.addPokemonToFavorite(it)
+            },
+            {
+                viewModel.removePokemonFromFavorite(it)
+            },
+            { transitioningView, pokemonId ->
+                findNavController().navigate(
+                    R.id.action_global_detailFragment,
+                    Bundle().apply {
+                        putInt("pokemonId", pokemonId)
+                    },
+                    null,
+                    FragmentNavigatorExtras(transitioningView to transitioningView.transitionName)
+                )
+            },
+        )
     }
 
     /**
@@ -63,15 +77,35 @@ class ListFragment : Fragment() {
             layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = pokemonAdapter
         }
-        pokemonAdapter.refresh()
     }
 
+    /**
+     * Setups the page's ViewModel.
+     */
     private fun setupViewModel() {
         lifecycleScope.launch {
             viewModel.allPokemonFlow.collectLatest { pagingData ->
                 pokemonAdapter.submitData(pagingData)
             }
         }
+    }
+
+    /**
+     * Setups the page's transition.
+     */
+    private fun setupTransition() {
+        exitTransition = MaterialElevationScale(false)
+        reenterTransition = MaterialElevationScale(true)
+
+        /**
+         * The below code is required to animate correctly when the user returns from [DetailFragment].
+         */
+        postponeEnterTransition()
+        (requireView().parent as ViewGroup).viewTreeObserver
+            .addOnPreDrawListener {
+                startPostponedEnterTransition()
+                true
+            }
     }
 
     companion object {

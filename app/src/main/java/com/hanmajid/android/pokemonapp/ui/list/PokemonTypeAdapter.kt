@@ -45,7 +45,7 @@ class PokemonTypeAdapter :
             pokemonType?.apply {
                 binding.pokemonType = this
                 val (backgroundColor, foregroundColor) = this.getColorResources()
-                binding.cardContainer.setCardBackgroundColor(
+                binding.cardContainerType.setCardBackgroundColor(
                     ContextCompat.getColor(
                         binding.root.context,
                         backgroundColor,
