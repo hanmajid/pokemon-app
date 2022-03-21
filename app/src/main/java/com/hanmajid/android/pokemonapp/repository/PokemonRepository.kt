@@ -3,7 +3,6 @@ package com.hanmajid.android.pokemonapp.repository
 import androidx.lifecycle.LiveData
 import androidx.paging.Pager
 import com.hanmajid.android.pokemonapp.model.Pokemon
-import com.hanmajid.android.pokemonapp.model.PokemonDetail
 
 /**
  * Pokemon-related repository interface.

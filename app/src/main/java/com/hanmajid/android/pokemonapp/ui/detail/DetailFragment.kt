@@ -1,7 +1,6 @@
 package com.hanmajid.android.pokemonapp.ui.detail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,14 +9,11 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
 import com.google.android.material.transition.MaterialContainerTransform
-import com.hanmajid.android.pokemonapp.R
 import com.hanmajid.android.pokemonapp.databinding.FragmentDetailBinding
 import com.hanmajid.android.pokemonapp.model.PokemonEvolution
 import com.hanmajid.android.pokemonapp.model.PokemonType
 import com.hanmajid.android.pokemonapp.ui.list.PokemonTypeAdapter
-import com.hanmajid.android.pokemonapp.util.PokemonUtil
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**

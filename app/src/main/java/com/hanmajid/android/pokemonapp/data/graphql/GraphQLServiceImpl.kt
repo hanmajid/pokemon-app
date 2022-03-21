@@ -7,7 +7,6 @@ import com.hanmajid.android.pokemonapp.BuildConfig
 import com.hanmajid.android.pokemonapp.GetPokemonDetailQuery
 import com.hanmajid.android.pokemonapp.GetPokemonQuery
 import com.hanmajid.android.pokemonapp.model.Pokemon
-import com.hanmajid.android.pokemonapp.model.PokemonDetail
 import org.koin.core.annotation.Single
 
 /**

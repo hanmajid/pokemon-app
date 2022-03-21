@@ -15,4 +15,6 @@
     <string name="message_enable_crash_reporting">Note: Crash reporting change will take effect after app restart.</string>
     <string name="enable_crash_reporting">Enable Crash Reporting?</string>
     <string name="message_favorite_empty">You have no favorite Pokemon yet</string>
+    <string name="message_list_empty">Failed loading Pokemon list</string>
+    <string name="action_retry">Retry</string>
 </resources>

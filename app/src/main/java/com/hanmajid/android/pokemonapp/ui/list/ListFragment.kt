@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.transition.MaterialElevationScale
 import com.hanmajid.android.pokemonapp.databinding.FragmentListBinding
@@ -68,10 +69,25 @@ class ListFragment : Fragment() {
      */
     private fun setupBinding() {
         binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
 
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            pokemonAdapter.refresh()
+        }
         binding.recyclerView.apply {
-            layoutManager = GridLayoutManager(requireContext(), 2)
-            adapter = pokemonAdapter
+            val customLayoutManager = GridLayoutManager(requireContext(), 2)
+            customLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int {
+                    return if (position == pokemonAdapter.itemCount) 2 else 1
+                }
+            }
+            layoutManager = customLayoutManager
+
+            adapter = pokemonAdapter.withLoadStateFooter(
+                PagingFooterAdapter {
+                    pokemonAdapter.retry()
+                }
+            )
         }
     }
 
@@ -82,6 +98,12 @@ class ListFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.allPokemonFlow.collectLatest { pagingData ->
                 pokemonAdapter.submitData(pagingData)
+            }
+        }
+        pokemonAdapter.addLoadStateListener {
+            viewModel.isLoading.postValue(it.refresh == LoadState.Loading)
+            pokemonAdapter.itemCount.let { itemCount ->
+                viewModel.isEmpty.postValue(itemCount <= 0)
             }
         }
     }

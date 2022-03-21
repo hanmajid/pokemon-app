@@ -4,11 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.hanmajid.android.pokemonapp.data.remoteMediator.AllPokemonRemoteMediator
 import com.hanmajid.android.pokemonapp.data.database.MainDatabase
 import com.hanmajid.android.pokemonapp.data.graphql.GraphQLService
+import com.hanmajid.android.pokemonapp.data.remoteMediator.AllPokemonRemoteMediator
 import com.hanmajid.android.pokemonapp.model.Pokemon
-import com.hanmajid.android.pokemonapp.model.PokemonDetail
 import org.koin.core.annotation.Single
 
 /**

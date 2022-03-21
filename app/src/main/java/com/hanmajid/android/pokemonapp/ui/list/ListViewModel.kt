@@ -1,5 +1,6 @@
 package com.hanmajid.android.pokemonapp.ui.list
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
@@ -17,6 +18,15 @@ class ListViewModel(
     private val addPokemonToFavoriteUseCase: AddPokemonToFavoriteUseCase,
     private val removePokemonFromFavoriteUseCase: RemovePokemonFromFavoriteUseCase,
 ) : ViewModel() {
+    /**
+     * Whether the app is loading Pokemon data.
+     */
+    val isLoading = MutableLiveData(false)
+
+    /**
+     * Whether the Pokemon data is empty.
+     */
+    val isEmpty = MutableLiveData(false)
 
     /**
      * All Pokemon's Flow.
